@@ -24,9 +24,11 @@ const cells = document.getElementsByClassName("cell");
 
 function checkRow(array) {
   for (let i = 0; i < array.length; i += 1) {
-    if (array[i][0] === array[i][1] && array[i][1] === array[i][2]) {
-      // Check rows
-      return true;
+    if (array[i][i]) {
+      if (array[i][0] === array[i][1] && array[i][1] === array[i][2]) {
+        // Check rows
+        return true;
+      }
     }
   }
   return false;
@@ -34,27 +36,31 @@ function checkRow(array) {
 
 function checkColumn(array) {
   for (let i = 0; i < array.length; i += 1) {
-    for (let j = 0; j < array.length; j += 1) {
-      if (
-        array[j][i] === array[j + 1][i] &&
-        array[j + 1][i] === array[j + 2][i]
-      ) {
-        return true;
+    if (array[i][i]) {
+      for (let j = 0; j < array.length; j += 1) {
+        if (
+          array[j][i] === array[j + 1][i] &&
+          array[j + 1][i] === array[j + 2][i]
+        ) {
+          return true;
+        }
+        break;
       }
-      break;
     }
   }
   return false;
 }
 
 function checkDiagonal(array) {
-  if (
-    (array[0][0] === array[1][1] && array[1][1] === array[2][2]) ||
-    (array[0][2] === array[1][1] && array[1][1] === array[2][0])
-  ) {
-    return true;
+  if (array[1][1]) {
+    if (
+      (array[0][0] === array[1][1] && array[1][1] === array[2][2]) ||
+      (array[0][2] === array[1][1] && array[1][1] === array[2][0])
+    ) {
+      return true;
+    }
+    return false;
   }
-  return false;
 }
 
 // Factory function
@@ -62,11 +68,6 @@ const player = (name, haveTurn) => {
   const playerScore = 0;
   return { playerScore, haveTurn, name };
 };
-
-const playerOne = player("name1", true);
-const playerTwo = player("name2", false);
-
-
 
 // Module
 const gameBoard = (() => {
@@ -82,6 +83,9 @@ const gameBoard = (() => {
 
 // Module
 const displayController = (() => {
+  const playerOne = player("name1", true);
+  const playerTwo = player("name2", false);
+
   const displayBoard = () => {
     for (let i = 0; i < cells.length; i += 1) {
       cells[i].textContent = gameBoard.board.flat()[i];
@@ -96,10 +100,9 @@ const displayController = (() => {
       playerOne.haveTurn = true;
       playerTwo.haveTurn = false;
     }
-  }
+  };
 
   const displayMark = () => {
-  
     for (let i = 0; i < cells.length; i += 1) {
       cells[i].addEventListener("click", () => {
         let count = -1;
@@ -111,16 +114,24 @@ const displayController = (() => {
                 if (!gameBoard.board[index][j]) {
                   gameBoard.board[index][j] = "X";
                   switchTurn();
-                } 
+                }
               } else {
                 if (!gameBoard.board[index][j]) {
                   gameBoard.board[index][j] = "O";
-                  switchTurn()
-                } 
+                  switchTurn();
+                }
               }
-              console.log(gameBoard.board);
-              console.log(checkRow(gameBoard.board), "row check");
-              console.log(checkColumn(gameBoard.board), "column check");
+
+              if (
+                checkRow(gameBoard.board) ||
+                checkColumn(gameBoard.board) ||
+                checkDiagonal(gameBoard.board)
+              ) {
+                if (playerTwo.haveTurn) console.log("player one wins");
+                else {
+                  console.log("player two wins");
+                }
+              }
               displayBoard();
             }
           }
