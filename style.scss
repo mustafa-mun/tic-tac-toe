@@ -8,7 +8,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-
+  flex-direction: column;
 }
 
 main {
@@ -24,4 +24,8 @@ main {
     border: solid black 1px;
     height: 150px;
   }
+}
+
+h4 {
+  font-size: 4vh;
 }
