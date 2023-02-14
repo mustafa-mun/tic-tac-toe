@@ -58,9 +58,9 @@ function checkDiagonal(array) {
 // Module
 const gameBoard = (() => {
   const board = [
-    ["", "", ""],
-    ["", "", ""],
-    ["", "", ""],
+    ["X", "X", "X"],
+    ["O", "X", "O"],
+    ["X", "O", "X"],
   ];
   return {
     board,
