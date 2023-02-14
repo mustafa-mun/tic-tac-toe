@@ -16,6 +16,10 @@ main {
   margin-top: 150px;
 }
 main .cell {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 4rem;
   border: solid black 1px;
   height: 150px;
 }/*# sourceMappingURL=style.css.map */

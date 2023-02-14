@@ -20,6 +20,8 @@
 //   };
 // })();
 
+const cells = document.getElementsByClassName("cell");
+
 function checkRow(array) {
   for (let i = 0; i < array.length; i += 1) {
     if (array[i][0] === array[i][1] && array[i][1] === array[i][2]) {
@@ -39,6 +41,7 @@ function checkColumn(array) {
       ) {
         return true;
       }
+      break;
     }
   }
   return false;
@@ -54,23 +57,83 @@ function checkDiagonal(array) {
   return false;
 }
 
+// Factory function
+const player = (name, haveTurn) => {
+  const playerScore = 0;
+  return { playerScore, haveTurn, name };
+};
+
+const playerOne = player("name1", true);
+const playerTwo = player("name2", false);
+
+
 
 // Module
 const gameBoard = (() => {
   const board = [
-    ["X", "X", "X"],
-    ["O", "X", "O"],
-    ["X", "O", "X"],
+    ["", "", ""],
+    ["", "", ""],
+    ["", "", ""],
   ];
   return {
     board,
   };
 })();
 
-console.log(checkColumn(gameBoard.board));
+// Module
+const displayController = (() => {
+  const displayBoard = () => {
+    for (let i = 0; i < cells.length; i += 1) {
+      cells[i].textContent = gameBoard.board.flat()[i];
+    }
+  };
 
-// Factory function
-const player = (name) => {
-  const playerScore = 0;
-  return { playerScore, name };
-};
+  const switchTurn = () => {
+    if (playerOne.haveTurn) {
+      playerOne.haveTurn = false;
+      playerTwo.haveTurn = true;
+    } else {
+      playerOne.haveTurn = true;
+      playerTwo.haveTurn = false;
+    }
+  }
+
+  const displayMark = () => {
+  
+    for (let i = 0; i < cells.length; i += 1) {
+      cells[i].addEventListener("click", () => {
+        let count = -1;
+        for (let index = 0; index < gameBoard.board.length; index += 1) {
+          for (let j = 0; j < gameBoard.board.length; j += 1) {
+            count += 1;
+            if (count === i) {
+              if (playerOne.haveTurn) {
+                if (!gameBoard.board[index][j]) {
+                  gameBoard.board[index][j] = "X";
+                  switchTurn();
+                } 
+              } else {
+                if (!gameBoard.board[index][j]) {
+                  gameBoard.board[index][j] = "O";
+                  switchTurn()
+                } 
+              }
+              console.log(gameBoard.board);
+              console.log(checkRow(gameBoard.board), "row check");
+              console.log(checkColumn(gameBoard.board), "column check");
+              displayBoard();
+            }
+          }
+        }
+      });
+    }
+  };
+
+  return {
+    displayBoard,
+    displayMark,
+  };
+})();
+
+displayController.displayBoard();
+displayController.displayMark();
