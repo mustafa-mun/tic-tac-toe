@@ -46,7 +46,7 @@ const elements = (() => {
 })();
 
 // Module
-const checkMatch = (() => {
+const checkGame = (() => {
   const checkRow = (array) => {
     for (let i = 0; i < array.length; i += 1) {
       if (array[i][i]) {
@@ -98,9 +98,9 @@ const checkMatch = (() => {
     }
 
     if (
-      checkMatch.checkRow(game.board) ||
-      checkMatch.checkColumn(game.board) ||
-      checkMatch.checkDiagonal(game.board)
+      checkGame.checkRow(game.board) ||
+      checkGame.checkColumn(game.board) ||
+      checkGame.checkDiagonal(game.board)
     ) {
       if (!player1.haveTurn) {
         msg.textContent = `${player1.name} Wins!`;
@@ -158,7 +158,7 @@ const displayController = (() => {
             }
           }
         }
-        checkMatch.checkWin(
+        checkGame.checkWin(
           elements.winMsg,
           elements.playerOne,
           elements.playerTwo
