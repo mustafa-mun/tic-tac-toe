@@ -11,10 +11,15 @@ body {
   flex-direction: column;
 }
 
+header {
+  margin-top: 25px;
+  font-size: 21px;
+}
+
 main {
   display: grid;
   grid-template-columns: 150px 150px 150px;
-  margin-top: 150px;
+  margin-top: 75px;
 
   .cell {
     display: flex;

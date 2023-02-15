@@ -61,7 +61,7 @@ const checkMatch = (() => {
   };
 
   const checkDiagonal = (array) => {
-    if (array[1][1]) {
+    if (array[1][1]) { // If array is not empty
       if (
         (array[0][0] === array[1][1] && array[1][1] === array[2][2]) ||
         (array[0][2] === array[1][1] && array[1][1] === array[2][0])
@@ -104,8 +104,10 @@ const checkMatch = (() => {
 
 // Module
 const displayController = (() => {
-  const playerOne = player("name1", true);
-  const playerTwo = player("name2", false);
+  const personOne = prompt("What is player one's name ? ")
+  const personTwo = prompt("What is player two's name? ")
+  const playerOne = player(personOne, true);
+  const playerTwo = player(personTwo, false);
   const cells = document.getElementsByClassName("cell");
   const winMsg = document.getElementById("win-msg");
 
