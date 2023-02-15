@@ -35,11 +35,13 @@ const elements = (() => {
   const playerTwo = player("name 2", false);
   const cells = document.getElementsByClassName("cell");
   const winMsg = document.getElementById("win-msg");
+  const turnMsg = document.getElementById("turn-msg");
   return {
     playerOne,
     playerTwo,
     cells,
     winMsg,
+    turnMsg,
   };
 })();
 
@@ -92,6 +94,7 @@ const checkMatch = (() => {
     if (game.board.flat().every((item) => item)) {
       msg.textContent = "Tie!";
       game.gameOver = true;
+      elements.turnMsg.textContent = "";
     }
 
     if (
@@ -102,9 +105,11 @@ const checkMatch = (() => {
       if (!player1.haveTurn) {
         msg.textContent = `${player1.name} Wins!`;
         game.gameOver = true;
+        elements.turnMsg.textContent = "";
       } else {
         msg.textContent = `${player2.name} Wins!`;
         game.gameOver = true;
+        elements.turnMsg.textContent = "";
       }
     }
   };
@@ -138,6 +143,7 @@ const displayController = (() => {
                   // If cell is empty and game is not over
                   game.board[index][j] = "X";
                   game.switchTurn(elements.playerOne, elements.playerTwo);
+                  elements.turnMsg.textContent = `${elements.playerTwo.name}'s Turn!`;
                 }
               }
               if (elements.playerTwo.haveTurn) {
@@ -145,6 +151,7 @@ const displayController = (() => {
                   // If cell is empty and game is not over
                   game.board[index][j] = "O";
                   game.switchTurn(elements.playerOne, elements.playerTwo);
+                  elements.turnMsg.textContent = `${elements.playerOne.name}'s Turn!`;
                 }
               }
               displayBoard();
@@ -179,7 +186,7 @@ const restart = (() => {
       elements.playerOne.haveTurn = true;
       elements.playerTwo.haveTurn = false;
       elements.winMsg.textContent = "";
-      game.gameOver = false
+      game.gameOver = false;
       displayController.displayBoard();
     });
   };
