@@ -5,21 +5,32 @@ const player = (name, haveTurn) => {
 };
 
 // Module
-const gameBoard = (() => {
+const game = (() => {
   const board = [
     ["", "", ""],
     ["", "", ""],
     ["", "", ""],
   ];
-  let gameOver = false;
+  const gameOver = false;
+
+  const switchTurn = (player1, player2) => {
+    if (player1.haveTurn) {
+      player1.haveTurn = false;
+      player2.haveTurn = true;
+    } else {
+      player1.haveTurn = true;
+      player2.haveTurn = false;
+    }
+  };
   return {
     board,
     gameOver,
+    switchTurn,
   };
 })();
 
 // Module
-const checkWin = (() => {
+const checkMatch = (() => {
   const checkRow = (array) => {
     for (let i = 0; i < array.length; i += 1) {
       if (array[i][i]) {
@@ -62,10 +73,32 @@ const checkWin = (() => {
     return "";
   };
 
+  const checkWin = (msg, player1, player2) => {
+    if (game.board.flat().every((item) => item)) {
+      msg.textContent = "Tie!";
+      game.gameOver = true;
+    }
+
+    if (
+      checkMatch.checkRow(game.board) ||
+      checkMatch.checkColumn(game.board) ||
+      checkMatch.checkDiagonal(game.board)
+    ) {
+      if (!player1.haveTurn) {
+        msg.textContent = `${player1.name} Wins!`;
+        game.gameOver = true;
+      } else {
+        msg.textContent = `${player2.name} Wins!`;
+        game.gameOver = true;
+      }
+    }
+  };
+
   return {
     checkRow,
     checkColumn,
     checkDiagonal,
+    checkWin,
   };
 })();
 
@@ -76,19 +109,9 @@ const displayController = (() => {
   const cells = document.getElementsByClassName("cell");
   const winMsg = document.getElementById("win-msg");
 
-  const switchTurn = () => {
-    if (playerOne.haveTurn) {
-      playerOne.haveTurn = false;
-      playerTwo.haveTurn = true;
-    } else {
-      playerOne.haveTurn = true;
-      playerTwo.haveTurn = false;
-    }
-  };
-
   const displayBoard = () => {
     for (let i = 0; i < cells.length; i += 1) {
-      cells[i].textContent = gameBoard.board.flat()[i];
+      cells[i].textContent = game.board.flat()[i];
     }
   };
 
@@ -96,48 +119,34 @@ const displayController = (() => {
     for (let i = 0; i < cells.length; i += 1) {
       cells[i].addEventListener("click", () => {
         let count = -1;
-        for (let index = 0; index < gameBoard.board.length; index += 1) {
-          for (let j = 0; j < gameBoard.board.length; j += 1) {
+        for (let index = 0; index < game.board.length; index += 1) {
+          for (let j = 0; j < game.board.length; j += 1) {
             count += 1;
             if (count === i) {
               if (playerOne.haveTurn) {
-                if (!gameBoard.board[index][j] && !gameBoard.gameOver) {
+                if (!game.board[index][j] && !game.gameOver) {
                   // If cell is empty and game is not over
-                  gameBoard.board[index][j] = "X";
-                  switchTurn();
+                  game.board[index][j] = "X";
+                  game.switchTurn(playerOne, playerTwo);
                 }
               }
               if (playerTwo.haveTurn) {
-                if (!gameBoard.board[index][j] && !gameBoard.gameOver) {
+                if (!game.board[index][j] && !game.gameOver) {
                   // If cell is empty and game is not over
-                  gameBoard.board[index][j] = "O";
-                  switchTurn();
-                }
-              }
-
-              if (
-                checkWin.checkRow(gameBoard.board) ||
-                checkWin.checkColumn(gameBoard.board) ||
-                checkWin.checkDiagonal(gameBoard.board)
-              ) {
-                if (!playerOne.haveTurn) {
-                  winMsg.textContent = `${playerOne.name} Wins!`;
-                  gameBoard.gameOver = true;
-                } else {
-                  winMsg.textContent = `${playerTwo.name} Wins!`;
-                  gameBoard.gameOver = true;
+                  game.board[index][j] = "O";
+                  game.switchTurn(playerOne, playerTwo);
                 }
               }
               displayBoard();
             }
           }
         }
+        checkMatch.checkWin(winMsg, playerOne, playerTwo);
       });
     }
   };
 
   return {
-    displayBoard,
     displayMark,
   };
 })();
