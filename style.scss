@@ -12,14 +12,12 @@ body {
 }
 
 header {
-  margin-top: 25px;
   font-size: 21px;
 }
 
 main {
   display: grid;
   grid-template-columns: 150px 150px 150px;
-  margin-top: 75px;
 
   .cell {
     display: flex;
@@ -31,6 +29,22 @@ main {
   }
 }
 
+h1 {
+  font-size: 52px;
+}
+
+
 h4 {
   font-size: 4vh;
+}
+
+#restart-btn {
+  padding: 18px 52px;
+  cursor: pointer;
+  border: none;
+  color: white;
+  font-weight: bold;
+  background-color: black;
+  font-size: 18px;
+  border-radius: 8px;
 }

@@ -30,6 +30,20 @@ const game = (() => {
 })();
 
 // Module
+const elements = (() => {
+  const playerOne = player("name 1", true);
+  const playerTwo = player("name 2", false);
+  const cells = document.getElementsByClassName("cell");
+  const winMsg = document.getElementById("win-msg");
+  return {
+    playerOne,
+    playerTwo,
+    cells,
+    winMsg,
+  };
+})();
+
+// Module
 const checkMatch = (() => {
   const checkRow = (array) => {
     for (let i = 0; i < array.length; i += 1) {
@@ -61,7 +75,8 @@ const checkMatch = (() => {
   };
 
   const checkDiagonal = (array) => {
-    if (array[1][1]) { // If array is not empty
+    if (array[1][1]) {
+      // If array is not empty
       if (
         (array[0][0] === array[1][1] && array[1][1] === array[2][2]) ||
         (array[0][2] === array[1][1] && array[1][1] === array[2][0])
@@ -104,53 +119,74 @@ const checkMatch = (() => {
 
 // Module
 const displayController = (() => {
-  const personOne = prompt("What is player one's name ? ")
-  const personTwo = prompt("What is player two's name? ")
-  const playerOne = player(personOne, true);
-  const playerTwo = player(personTwo, false);
-  const cells = document.getElementsByClassName("cell");
-  const winMsg = document.getElementById("win-msg");
-
   const displayBoard = () => {
-    for (let i = 0; i < cells.length; i += 1) {
-      cells[i].textContent = game.board.flat()[i];
+    for (let i = 0; i < elements.cells.length; i += 1) {
+      elements.cells[i].textContent = game.board.flat()[i];
     }
   };
 
   const displayMark = () => {
-    for (let i = 0; i < cells.length; i += 1) {
-      cells[i].addEventListener("click", () => {
+    for (let i = 0; i < elements.cells.length; i += 1) {
+      elements.cells[i].addEventListener("click", () => {
         let count = -1;
         for (let index = 0; index < game.board.length; index += 1) {
           for (let j = 0; j < game.board.length; j += 1) {
             count += 1;
             if (count === i) {
-              if (playerOne.haveTurn) {
+              if (elements.playerOne.haveTurn) {
                 if (!game.board[index][j] && !game.gameOver) {
                   // If cell is empty and game is not over
                   game.board[index][j] = "X";
-                  game.switchTurn(playerOne, playerTwo);
+                  game.switchTurn(elements.playerOne, elements.playerTwo);
                 }
               }
-              if (playerTwo.haveTurn) {
+              if (elements.playerTwo.haveTurn) {
                 if (!game.board[index][j] && !game.gameOver) {
                   // If cell is empty and game is not over
                   game.board[index][j] = "O";
-                  game.switchTurn(playerOne, playerTwo);
+                  game.switchTurn(elements.playerOne, elements.playerTwo);
                 }
               }
               displayBoard();
             }
           }
         }
-        checkMatch.checkWin(winMsg, playerOne, playerTwo);
+        checkMatch.checkWin(
+          elements.winMsg,
+          elements.playerOne,
+          elements.playerTwo
+        );
       });
     }
   };
 
   return {
     displayMark,
+    displayBoard,
+  };
+})();
+
+// Module
+const restart = (() => {
+  const restBtn = document.getElementById("restart-btn");
+  const gameBoard = () => {
+    restBtn.addEventListener("click", () => {
+      game.board = [
+        ["", "", ""],
+        ["", "", ""],
+        ["", "", ""],
+      ];
+      elements.playerOne.haveTurn = true;
+      elements.playerTwo.haveTurn = false;
+      elements.winMsg.textContent = "";
+      game.gameOver = false
+      displayController.displayBoard();
+    });
+  };
+  return {
+    gameBoard,
   };
 })();
 
 displayController.displayMark();
+restart.gameBoard();
