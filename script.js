@@ -16,6 +16,7 @@ const elements = (() => {
   const playerTwoCheck = document.getElementById("player-two-check");
   const playerOne = player(true, playerOneNameEl.textContent);
   const playerTwo = player(false, playerTwoNameEl.textContent);
+
   const cells = document.getElementsByClassName("cell");
   const winMsg = document.getElementById("win-msg");
   const turnMsg = document.getElementById("turn-msg");
@@ -125,12 +126,20 @@ const checkGame = (() => {
     ) {
       if (!player1.haveTurn) {
         msg.textContent = `${elements.playerOne.name} Wins!`;
-        game.gameOver = true;
         elements.turnMsg.textContent = "";
+        if(!game.gameOver) {
+          elements.playerOne.playerScore += 1
+          elements.playerOneNameEl.textContent = `${elements.playerOne.name}: ${elements.playerOne.playerScore}`
+        }
+        game.gameOver = true;
       } else {
         msg.textContent = `${elements.playerTwo.name} Wins!`;
-        game.gameOver = true;
         elements.turnMsg.textContent = "";
+        if(!game.gameOver) {
+          elements.playerTwo.playerScore += 1
+          elements.playerTwoNameEl.textContent = `${elements.playerTwo.name}: ${elements.playerTwo.playerScore}`
+        }
+        game.gameOver = true;
       }
     }
   };
@@ -190,30 +199,12 @@ const displayController = (() => {
 
 // Module (THIS SECTION NEEDS REFACTOR)
 const edit = (() => {
-
-  const defaultInput = () => {
-    elements.playerOneEditIcon.style.display = "block"
-    elements.playerOneCheck.style.display = "none"
-    elements.playerOneNameEl.style.display = "block"
-    elements.playerOneInput.style.display = "none"
-    elements.playerOneNameEl.textContent = "Player One"
-    elements.playerOne.name = elements.playerOneNameEl.textContent
-
-    elements.playerTwoEditIcon.style.display = "block"
-    elements.playerTwoCheck.style.display = "none"
-    elements.playerTwoNameEl.style.display = "block"
-    elements.playerTwoInput.style.display = "none"
-    elements.playerTwoNameEl.textContent = "Player Two"
-    elements.playerTwo.name = elements.playerTwoNameEl.textContent
-  }
-
   const name = () => {
     elements.playerOneEditIcon.addEventListener("click", () => {
       elements.playerOneNameEl.classList.toggle("not-visible");
       elements.playerOneEditIcon.classList.toggle("not-visible");
       elements.playerOneCheck.classList.toggle("vis");
       elements.playerOneInput.classList.toggle("vis");
-      
     });
     elements.playerTwoEditIcon.addEventListener("click", () => {
       elements.playerTwoNameEl.classList.toggle("not-visible");
@@ -229,7 +220,7 @@ const edit = (() => {
         elements.playerOneCheck.classList.toggle("vis");
         elements.playerOneInput.classList.toggle("vis");
         elements.playerOne.name = elements.playerOneInput.value;
-        elements.playerOneNameEl.textContent = elements.playerOne.name;
+        elements.playerOneNameEl.textContent = `${elements.playerOne.name}: ${elements.playerOne.playerScore}`;
       }
     });
 
@@ -240,14 +231,13 @@ const edit = (() => {
         elements.playerTwoInput.classList.toggle("vis");
         elements.playerTwoCheck.classList.toggle("vis");
         elements.playerTwo.name = elements.playerTwoInput.value;
-        elements.playerTwoNameEl.textContent = elements.playerTwo.name;
+        elements.playerTwoNameEl.textContent = `${elements.playerTwo.name}: ${elements.playerTwo.playerScore}`;
       }
     });
   };
 
   return {
     name,
-    defaultInput
   };
 })();
 
@@ -265,7 +255,6 @@ const restart = (() => {
       elements.winMsg.textContent = "";
       elements.turnMsg.textContent = "";
       game.gameOver = false;
-      edit.defaultInput()
       displayController.displayBoard();
     };
     elements.restBtn.addEventListener("click", () => {
