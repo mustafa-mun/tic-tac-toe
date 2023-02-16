@@ -188,7 +188,25 @@ const displayController = (() => {
   };
 })();
 
+// Module (THIS SECTION NEEDS REFACTOR)
 const edit = (() => {
+
+  const defaultInput = () => {
+    elements.playerOneEditIcon.style.display = "block"
+    elements.playerOneCheck.style.display = "none"
+    elements.playerOneNameEl.style.display = "block"
+    elements.playerOneInput.style.display = "none"
+    elements.playerOneNameEl.textContent = "Player One"
+    elements.playerOne.name = elements.playerOneNameEl.textContent
+
+    elements.playerTwoEditIcon.style.display = "block"
+    elements.playerTwoCheck.style.display = "none"
+    elements.playerTwoNameEl.style.display = "block"
+    elements.playerTwoInput.style.display = "none"
+    elements.playerTwoNameEl.textContent = "Player Two"
+    elements.playerTwo.name = elements.playerTwoNameEl.textContent
+  }
+
   const name = () => {
     elements.playerOneEditIcon.addEventListener("click", () => {
       elements.playerOneNameEl.classList.toggle("not-visible");
@@ -229,6 +247,7 @@ const edit = (() => {
 
   return {
     name,
+    defaultInput
   };
 })();
 
@@ -246,8 +265,7 @@ const restart = (() => {
       elements.winMsg.textContent = "";
       elements.turnMsg.textContent = "";
       game.gameOver = false;
-      elements.playerOne.name = elements.playerOneNameEl.textContent
-      elements.playerTwo.name = elements.playerTwoNameEl.textContent
+      edit.defaultInput()
       displayController.displayBoard();
     };
     elements.restBtn.addEventListener("click", () => {

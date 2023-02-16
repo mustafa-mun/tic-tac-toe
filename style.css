@@ -102,6 +102,7 @@ h4 {
   main {
     flex-direction: column-reverse;
     justify-content: center;
+    margin-left: 24vw;
   }
   .gameboard {
     grid-template-columns: 100px 100px 100px;
