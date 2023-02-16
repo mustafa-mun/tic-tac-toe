@@ -29,11 +29,11 @@ main .cell {
 }
 
 h1 {
-  font-size: 52px;
+  font-size: 3.5rem;
 }
 
 h4 {
-  font-size: 4vh;
+  font-size: 2.5rem;
 }
 
 #restart-btn {
@@ -45,4 +45,24 @@ h4 {
   background-color: black;
   font-size: 18px;
   border-radius: 8px;
+}
+
+@media screen and (max-width: 600px) {
+  main {
+    grid-template-columns: 100px 100px 100px;
+  }
+  main .cell {
+    height: 100px;
+    font-size: 3rem;
+  }
+  h1 {
+    font-size: 2.5rem;
+  }
+  h4 {
+    font-size: 1.8rem;
+  }
+  #restart-btn {
+    padding: 16px 46px;
+    font-size: 15px;
+  }
 }/*# sourceMappingURL=style.css.map */
