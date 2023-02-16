@@ -16,7 +16,6 @@ const elements = (() => {
   const playerTwoCheck = document.getElementById("player-two-check");
   const playerOne = player(true, playerOneNameEl.textContent);
   const playerTwo = player(false, playerTwoNameEl.textContent);
-
   const cells = document.getElementsByClassName("cell");
   const winMsg = document.getElementById("win-msg");
   const turnMsg = document.getElementById("turn-msg");
@@ -48,6 +47,7 @@ const game = (() => {
     ["", "", ""],
   ];
   const gameOver = false;
+  const gameTie = false;
 
   const switchTurn = (player1, player2) => {
     if (player1.haveTurn) {
@@ -63,6 +63,7 @@ const game = (() => {
   return {
     board,
     gameOver,
+    gameTie,
     switchTurn,
   };
 })();
@@ -127,17 +128,17 @@ const checkGame = (() => {
       if (!player1.haveTurn) {
         msg.textContent = `${elements.playerOne.name} Wins!`;
         elements.turnMsg.textContent = "";
-        if(!game.gameOver) {
-          elements.playerOne.playerScore += 1
-          elements.playerOneNameEl.textContent = `${elements.playerOne.name}: ${elements.playerOne.playerScore}`
+        if (!game.gameOver || game.gameTie) {
+          elements.playerOne.playerScore += 1;
+          elements.playerOneNameEl.textContent = `${elements.playerOne.name}: ${elements.playerOne.playerScore}`;
         }
         game.gameOver = true;
       } else {
         msg.textContent = `${elements.playerTwo.name} Wins!`;
         elements.turnMsg.textContent = "";
-        if(!game.gameOver) {
-          elements.playerTwo.playerScore += 1
-          elements.playerTwoNameEl.textContent = `${elements.playerTwo.name}: ${elements.playerTwo.playerScore}`
+        if (!game.gameOver || game.gameTie) {
+          elements.playerTwo.playerScore += 1;
+          elements.playerTwoNameEl.textContent = `${elements.playerTwo.name}: ${elements.playerTwo.playerScore}`;
         }
         game.gameOver = true;
       }
