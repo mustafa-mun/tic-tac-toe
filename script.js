@@ -18,7 +18,7 @@ const elements = (() => {
     cells,
     winMsg,
     turnMsg,
-    restBtn,
+    restBtn
   };
 })();
 
