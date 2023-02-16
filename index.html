@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="style.css" />
-    <title>Tic-Tac-Toe</title>
+    <title>Tic Tac Toe</title>
   </head>
   <body>
     <header>
@@ -14,18 +14,24 @@
 
     <h4 id="turn-msg"></h4>
 
-    <section>
-      <div>
-        <img src="pencil.png" alt="edit">
-        <p id="player-one-name">Player One: </p>
-      </div>
-      <div>
-        <img src="pencil.png" alt="edit">
-        <p id="player-two-name">Player Two: </p>
-      </div>
-    </section>
-
+   
     <main>
+      
+      <section class="players-section">
+        <div>
+          <img id="player-one-edit" src="pencil.png" alt="edit">
+          <img class="player-one-check" id="player-one-check" src="checked.png" alt="checked">
+          <p class="player-one-name" id="player-one-name">Player One</p>
+          <input class="player-one-name-input" type="text" name="player-one-name" id="player-one-name-input" placeholder="Your name">
+        </div>
+        <div>
+          <img id="player-two-edit" src="pencil.png" alt="edit">
+          <img class="player-two-check" id="player-two-check" src="checked.png" alt="checked">
+          <p class="player-two-name" id="player-two-name">Player Two </p>
+          <input class="player-two-name-input" type="text" name="player-two-name" id="player-two-name-input" placeholder="Your name">
+        </div>
+      </section>
+     <section class="gameboard">
       <!-- Gameboard -->
       <div class="cell"></div>
       <div class="cell"></div>
@@ -36,6 +42,7 @@
       <div class="cell"></div>
       <div class="cell"></div>
       <div class="cell"></div>
+     </section>
     </main>
 
     <h4 id="win-msg"></h4>

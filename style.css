@@ -14,27 +14,62 @@ header {
   width: 100%;
 }
 
-section {
-  position: absolute;
-  left: 250px;
-  font-size: 1.5rem;
-}
-section div {
+main {
+  margin-right: 25vw;
   display: flex;
   align-items: center;
 }
-section div img {
+main .players-section {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin-right: 12vw;
+  height: -moz-fit-content;
+  height: fit-content;
+  width: 250px;
+}
+main .players-section div {
+  display: flex;
+  align-items: center;
+}
+main .players-section div .player-one-name {
+  display: block;
+}
+main .players-section div .player-two-name {
+  display: block;
+}
+main .players-section div .player-one-check,
+main .players-section div .player-one-name-input {
+  display: none;
+}
+main .players-section div .player-two-check,
+main .players-section div .player-two-name-input {
+  display: none;
+}
+main .players-section div .vis {
+  display: block;
+}
+main .players-section div .not-visible {
+  display: none;
+}
+main .players-section div input {
+  border: none;
+  font-size: 16px;
+}
+main .players-section div input:focus {
+  outline: none;
+}
+main .players-section div img {
   width: 20px;
   height: 20px;
   cursor: pointer;
   margin-right: 15px;
 }
-
-main {
+main section {
   display: grid;
   grid-template-columns: 150px 150px 150px;
 }
-main .cell {
+main section .cell {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -65,11 +100,19 @@ h4 {
 
 @media screen and (max-width: 600px) {
   main {
+    flex-direction: column-reverse;
+    justify-content: center;
+  }
+  .gameboard {
     grid-template-columns: 100px 100px 100px;
   }
-  main .cell {
+  .gameboard .cell {
     height: 100px;
     font-size: 3rem;
+  }
+  .players-section {
+    margin-left: 12px;
+    margin-top: 45px;
   }
   h1 {
     font-size: 2.5rem;

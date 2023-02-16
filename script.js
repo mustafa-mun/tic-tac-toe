@@ -1,24 +1,41 @@
 // Factory function
-const player = (haveTurn) => {
+const player = (haveTurn, name) => {
   const playerScore = 0;
-  return { playerScore, haveTurn };
+  return { playerScore, haveTurn, name };
 };
 
 // Module
 const elements = (() => {
-  const playerOne = player(true);
-  const playerTwo = player(false);
+  const playerOneEditIcon = document.getElementById("player-one-edit");
+  const playerTwoEditIcon = document.getElementById("player-two-edit");
+  const playerOneInput = document.getElementById("player-one-name-input");
+  const playerTwoInput = document.getElementById("player-two-name-input");
+  const playerOneNameEl = document.getElementById("player-one-name");
+  const playerTwoNameEl = document.getElementById("player-two-name");
+  const playerOneCheck = document.getElementById("player-one-check");
+  const playerTwoCheck = document.getElementById("player-two-check");
+  const playerOne = player(true, playerOneNameEl.textContent);
+  const playerTwo = player(false, playerTwoNameEl.textContent);
   const cells = document.getElementsByClassName("cell");
   const winMsg = document.getElementById("win-msg");
   const turnMsg = document.getElementById("turn-msg");
   const restBtn = document.getElementById("restart-btn");
+
   return {
+    playerOneEditIcon,
+    playerTwoEditIcon,
+    playerOneInput,
+    playerTwoInput,
+    playerOneCheck,
+    playerTwoCheck,
+    playerOneNameEl,
+    playerTwoNameEl,
     playerOne,
     playerTwo,
     cells,
     winMsg,
     turnMsg,
-    restBtn
+    restBtn,
   };
 })();
 
@@ -35,11 +52,11 @@ const game = (() => {
     if (player1.haveTurn) {
       player1.haveTurn = false;
       player2.haveTurn = true;
-      elements.turnMsg.textContent = `Player Two's Turn!`;
+      elements.turnMsg.textContent = `${elements.playerTwo.name}'s Turn!`;
     } else {
       player1.haveTurn = true;
       player2.haveTurn = false;
-      elements.turnMsg.textContent = `Player Ones's Turn!`;
+      elements.turnMsg.textContent = `${elements.playerOne.name}'s Turn!`;
     }
   };
   return {
@@ -107,11 +124,11 @@ const checkGame = (() => {
       checkGame.checkDiagonal(game.board)
     ) {
       if (!player1.haveTurn) {
-        msg.textContent = `Player One Wins!`;
+        msg.textContent = `${elements.playerOne.name} Wins!`;
         game.gameOver = true;
         elements.turnMsg.textContent = "";
       } else {
-        msg.textContent = `Player Two Wins!`;
+        msg.textContent = `${elements.playerTwo.name} Wins!`;
         game.gameOver = true;
         elements.turnMsg.textContent = "";
       }
@@ -171,6 +188,50 @@ const displayController = (() => {
   };
 })();
 
+const edit = (() => {
+  const name = () => {
+    elements.playerOneEditIcon.addEventListener("click", () => {
+      elements.playerOneNameEl.classList.toggle("not-visible");
+      elements.playerOneEditIcon.classList.toggle("not-visible");
+      elements.playerOneCheck.classList.toggle("vis");
+      elements.playerOneInput.classList.toggle("vis");
+      
+    });
+    elements.playerTwoEditIcon.addEventListener("click", () => {
+      elements.playerTwoNameEl.classList.toggle("not-visible");
+      elements.playerTwoEditIcon.classList.toggle("not-visible");
+      elements.playerTwoInput.classList.toggle("vis");
+      elements.playerTwoCheck.classList.toggle("vis");
+    });
+
+    elements.playerOneCheck.addEventListener("click", () => {
+      if (elements.playerOneInput.value) {
+        elements.playerOneNameEl.classList.toggle("not-visible");
+        elements.playerOneEditIcon.classList.toggle("not-visible");
+        elements.playerOneCheck.classList.toggle("vis");
+        elements.playerOneInput.classList.toggle("vis");
+        elements.playerOne.name = elements.playerOneInput.value;
+        elements.playerOneNameEl.textContent = elements.playerOne.name;
+      }
+    });
+
+    elements.playerTwoCheck.addEventListener("click", () => {
+      if (elements.playerTwoInput.value) {
+        elements.playerTwoNameEl.classList.toggle("not-visible");
+        elements.playerTwoEditIcon.classList.toggle("not-visible");
+        elements.playerTwoInput.classList.toggle("vis");
+        elements.playerTwoCheck.classList.toggle("vis");
+        elements.playerTwo.name = elements.playerTwoInput.value;
+        elements.playerTwoNameEl.textContent = elements.playerTwo.name;
+      }
+    });
+  };
+
+  return {
+    name,
+  };
+})();
+
 // Module
 const restart = (() => {
   const gameBoard = () => {
@@ -185,6 +246,8 @@ const restart = (() => {
       elements.winMsg.textContent = "";
       elements.turnMsg.textContent = "";
       game.gameOver = false;
+      elements.playerOne.name = elements.playerOneNameEl.textContent
+      elements.playerTwo.name = elements.playerTwoNameEl.textContent
       displayController.displayBoard();
     };
     elements.restBtn.addEventListener("click", () => {
@@ -197,4 +260,5 @@ const restart = (() => {
 })();
 
 displayController.displayMark();
+edit.name();
 restart.gameBoard();
