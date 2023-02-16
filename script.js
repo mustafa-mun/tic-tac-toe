@@ -48,6 +48,7 @@ const game = (() => {
     ["", "", ""],
   ];
   const gameOver = false;
+  const gameTie = false;
 
   const switchTurn = (player1, player2) => {
     if (player1.haveTurn) {
@@ -63,6 +64,7 @@ const game = (() => {
   return {
     board,
     gameOver,
+    gameTie,
     switchTurn,
   };
 })();
@@ -116,6 +118,7 @@ const checkGame = (() => {
     if (game.board.flat().every((item) => item)) {
       msg.textContent = "Tie!";
       game.gameOver = true;
+      game.gameTie = true;
       elements.turnMsg.textContent = "";
     }
 
@@ -127,7 +130,7 @@ const checkGame = (() => {
       if (!player1.haveTurn) {
         msg.textContent = `${elements.playerOne.name} Wins!`;
         elements.turnMsg.textContent = "";
-        if(!game.gameOver) {
+        if(!game.gameOver || game.gameTie) {
           elements.playerOne.playerScore += 1
           elements.playerOneNameEl.textContent = `${elements.playerOne.name}: ${elements.playerOne.playerScore}`
         }
@@ -135,7 +138,7 @@ const checkGame = (() => {
       } else {
         msg.textContent = `${elements.playerTwo.name} Wins!`;
         elements.turnMsg.textContent = "";
-        if(!game.gameOver) {
+        if(!game.gameOver || game.gameTie) {
           elements.playerTwo.playerScore += 1
           elements.playerTwoNameEl.textContent = `${elements.playerTwo.name}: ${elements.playerTwo.playerScore}`
         }
