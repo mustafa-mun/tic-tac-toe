@@ -130,17 +130,29 @@ const checkGame = (() => {
       if (!player1.haveTurn) {
         msg.textContent = `${elements.playerOne.name} Wins!`;
         elements.turnMsg.textContent = "";
+<<<<<<< HEAD
         if (!game.gameOver || game.gameTie) {
           elements.playerOne.playerScore += 1;
           elements.playerOneNameEl.textContent = `${elements.playerOne.name}: ${elements.playerOne.playerScore}`;
+=======
+        if(!game.gameOver || game.gameTie) {
+          elements.playerOne.playerScore += 1
+          elements.playerOneNameEl.textContent = `${elements.playerOne.name}: ${elements.playerOne.playerScore}`
+>>>>>>> 886129e728286b44d638b830c71c3fdaf920519b
         }
         game.gameOver = true;
       } else {
         msg.textContent = `${elements.playerTwo.name} Wins!`;
         elements.turnMsg.textContent = "";
+<<<<<<< HEAD
         if (!game.gameOver || game.gameTie) {
           elements.playerTwo.playerScore += 1;
           elements.playerTwoNameEl.textContent = `${elements.playerTwo.name}: ${elements.playerTwo.playerScore}`;
+=======
+        if(!game.gameOver || game.gameTie) {
+          elements.playerTwo.playerScore += 1
+          elements.playerTwoNameEl.textContent = `${elements.playerTwo.name}: ${elements.playerTwo.playerScore}`
+>>>>>>> 886129e728286b44d638b830c71c3fdaf920519b
         }
         game.gameOver = true;
       }
@@ -232,7 +244,7 @@ const edit = (() => {
       if (elements.playerOneInput.value) {
         playerOneInputToggle();
         // Update player name
-        elements.playerOne.name = elements.playerOneInput.value;
+        elements.playerOne.name = elements.playerOneInputg.value;
         elements.playerOneNameEl.textContent = `${elements.playerOne.name}: ${elements.playerOne.playerScore}`;
       }
     });
