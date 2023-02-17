@@ -232,7 +232,7 @@ const edit = (() => {
       if (elements.playerOneInput.value) {
         playerOneInputToggle();
         // Update player name
-        elements.playerOne.name = elements.playerOneInputg.value;
+        elements.playerOne.name = elements.playerOneInput.value;
         elements.playerOneNameEl.textContent = `${elements.playerOne.name}: ${elements.playerOne.playerScore}`;
       }
     });
