@@ -46,7 +46,7 @@ main .players-section div .player-two-check,
 main .players-section div .player-two-name-input {
   display: none;
 }
-main .players-section div .vis {
+main .players-section div .visible {
   display: block;
 }
 main .players-section div .not-visible {

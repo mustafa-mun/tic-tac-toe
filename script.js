@@ -1,10 +1,10 @@
-// Factory function
+// Player factory function
 const player = (haveTurn, name) => {
   const playerScore = 0;
   return { playerScore, haveTurn, name };
 };
 
-// Module
+// Elements module
 const elements = (() => {
   const playerOneEditIcon = document.getElementById("player-one-edit");
   const playerTwoEditIcon = document.getElementById("player-two-edit");
@@ -39,7 +39,7 @@ const elements = (() => {
   };
 })();
 
-// Module
+// Gameboard module
 const game = (() => {
   const board = [
     ["", "", ""],
@@ -68,13 +68,12 @@ const game = (() => {
   };
 })();
 
-// Module
+// Check win module
 const checkGame = (() => {
   const checkRow = (array) => {
     for (let i = 0; i < array.length; i += 1) {
       if (array[i][i]) {
         if (array[i][0] === array[i][1] && array[i][1] === array[i][2]) {
-          // Check rows
           return true;
         }
       }
@@ -115,12 +114,15 @@ const checkGame = (() => {
 
   const checkWin = (msg, player1) => {
     if (game.board.flat().every((item) => item)) {
+      // Check for tie game
       msg.textContent = "Tie!";
       game.gameOver = true;
+      game.gameTie = true;
       elements.turnMsg.textContent = "";
     }
 
     if (
+      // Check for win conditionals
       checkGame.checkRow(game.board) ||
       checkGame.checkColumn(game.board) ||
       checkGame.checkDiagonal(game.board)
@@ -153,15 +155,17 @@ const checkGame = (() => {
   };
 })();
 
-// Module
+// Display module
 const displayController = (() => {
   const displayBoard = () => {
+    // Display board items on screen
     for (let i = 0; i < elements.cells.length; i += 1) {
       elements.cells[i].textContent = game.board.flat()[i];
     }
   };
 
   const displayMark = () => {
+    // Display x and o on screen and check for win on every mark
     for (let i = 0; i < elements.cells.length; i += 1) {
       elements.cells[i].addEventListener("click", () => {
         let count = -1;
@@ -198,28 +202,35 @@ const displayController = (() => {
   };
 })();
 
-// Module (THIS SECTION NEEDS REFACTOR)
+// Edit names module
 const edit = (() => {
   const name = () => {
-    elements.playerOneEditIcon.addEventListener("click", () => {
+    const playerOneInputToggle = () => {
       elements.playerOneNameEl.classList.toggle("not-visible");
       elements.playerOneEditIcon.classList.toggle("not-visible");
-      elements.playerOneCheck.classList.toggle("vis");
-      elements.playerOneInput.classList.toggle("vis");
-    });
-    elements.playerTwoEditIcon.addEventListener("click", () => {
+      elements.playerOneCheck.classList.toggle("visible");
+      elements.playerOneInput.classList.toggle("visible");
+    };
+
+    const playerTwoInputToggle = () => {
       elements.playerTwoNameEl.classList.toggle("not-visible");
       elements.playerTwoEditIcon.classList.toggle("not-visible");
-      elements.playerTwoInput.classList.toggle("vis");
-      elements.playerTwoCheck.classList.toggle("vis");
+      elements.playerTwoInput.classList.toggle("visible");
+      elements.playerTwoCheck.classList.toggle("visible");
+    };
+
+    elements.playerOneEditIcon.addEventListener("click", () => {
+      // Edit icon event listener
+      playerOneInputToggle();
+    });
+    elements.playerTwoEditIcon.addEventListener("click", () => {
+      playerTwoInputToggle();
     });
 
     elements.playerOneCheck.addEventListener("click", () => {
+      // Check icon event listener
       if (elements.playerOneInput.value) {
-        elements.playerOneNameEl.classList.toggle("not-visible");
-        elements.playerOneEditIcon.classList.toggle("not-visible");
-        elements.playerOneCheck.classList.toggle("vis");
-        elements.playerOneInput.classList.toggle("vis");
+        playerOneInputToggle();
         elements.playerOne.name = elements.playerOneInput.value;
         elements.playerOneNameEl.textContent = `${elements.playerOne.name}: ${elements.playerOne.playerScore}`;
       }
@@ -227,10 +238,7 @@ const edit = (() => {
 
     elements.playerTwoCheck.addEventListener("click", () => {
       if (elements.playerTwoInput.value) {
-        elements.playerTwoNameEl.classList.toggle("not-visible");
-        elements.playerTwoEditIcon.classList.toggle("not-visible");
-        elements.playerTwoInput.classList.toggle("vis");
-        elements.playerTwoCheck.classList.toggle("vis");
+        playerTwoInputToggle();
         elements.playerTwo.name = elements.playerTwoInput.value;
         elements.playerTwoNameEl.textContent = `${elements.playerTwo.name}: ${elements.playerTwo.playerScore}`;
       }
@@ -242,7 +250,7 @@ const edit = (() => {
   };
 })();
 
-// Module
+// Restart game board module
 const restart = (() => {
   const gameBoard = () => {
     const refresh = () => {
