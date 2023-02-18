@@ -256,7 +256,7 @@ const edit = (() => {
 // Restart game board module
 const restart = (() => {
   const gameBoard = () => {
-    const refresh = () => {
+    const refresh = () => { // Default values
       game.board = [
         ["", "", ""],
         ["", "", ""],
