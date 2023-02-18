@@ -191,7 +191,9 @@ const displayController = (() => {
             }
           }
         }
-        checkGame.checkWin(elements.winMsg, elements.playerOne);
+        if (!game.gameOver) {
+          checkGame.checkWin(elements.winMsg, elements.playerOne);
+        }
       });
     }
   };
@@ -265,6 +267,7 @@ const restart = (() => {
       elements.winMsg.textContent = "";
       elements.turnMsg.textContent = "";
       game.gameOver = false;
+      game.gameTie = false;
       displayController.displayBoard();
     };
     elements.restBtn.addEventListener("click", () => {
